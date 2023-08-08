@@ -1,0 +1,39 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title #{pageTitle}
+        link(rel="stylesheet", href="/css/index.css")
+    body
+        header.header_main 
+            nav.header_nav
+                ul.header_ul
+                    li.header_li
+                        a.active(href="/") HOME
+                    if isAuth
+                        if isAdmin
+                            li.header_li
+                                a(href="/admin/add-product") ADD-PRODUCT
+                        li.header_li
+                            a(href="/products") PRODUCT
+                        li.header_li
+                            a(href="/cart") CART
+                        li.header_li
+                            a(href="/order") ORDER
+                if isAuth
+                    div.user #{user}
+                    form(action="/logout", method="post")
+                        input(type="hidden", name="_csrf" value=`${csrfToken}`) 
+                        button(type="submit") Logout
+                else 
+                    a(href='/login') Login
+        div.main_div
+            if errorMessage 
+                h1.success #{errorMessage}
+            if isAuth 
+                h1.title USER AUTHENTICATED
+            else 
+                h1.title YOU ARE NOT LOGGED IN
+        footer.main_footer
+            p &copy; 2023 Nilotpal &reg; MIT License
